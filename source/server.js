@@ -157,6 +157,22 @@ app.get('/api/latestversion', function(req, res) {
   });
 });
 
+app.post('/api/git/repo/mkdir', function(req, res){
+  var fs = require('fs-extra');
+
+  // retrieve input
+  var json = req.body;
+  var pathRemote = json.pathRemote;
+  var pathLocal = json.pathLocal;
+
+  // mkdir and return response
+  fs.mkdirp(pathLocal,
+    function(err,ret) {
+      res.json({ ok: true });
+    }
+  );
+});
+
 app.get('/api/ping', function(req, res) {
   res.json({});
 });
