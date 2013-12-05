@@ -301,6 +301,15 @@ if (ungit.config.authentication) {
   });
 }
 
+ko.bindingHandlers.highlightRequiredInput = {
+  init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+    $('input[data-required="true"]')
+            .closest(".form-group")
+            .children("label")
+            .append("<font style=\"display:inline; color:red\">*</font>");
+  }
+};
+
 ko.applyBindings(appContainer);
 
 // routing
