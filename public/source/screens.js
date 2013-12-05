@@ -13,6 +13,11 @@ function HomeRepositoryViewModel(home, path) {
   this.link = '/#/repository?path=' + encodeURIComponent(path);
   this.pathRemoved = ko.observable(false);
   this.remote = ko.observable('...');
+  this.basename = ko.computed(function() {
+    if (this.path.length > 0) {
+      return this.path.split('/').reverse()[0];
+    }
+  }, this);
   this.updateState();
 }
 HomeRepositoryViewModel.prototype.updateState = function() {
