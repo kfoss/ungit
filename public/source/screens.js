@@ -1,9 +1,11 @@
-
+var $ = require('../vendor/js/jquery-2.0.0.min');
 var ko = require('knockout');
 var ProgressBarViewModel = require('./controls').ProgressBarViewModel;
 var RepositoryViewModel = require('./repository').RepositoryViewModel;
 var addressParser = require('../../source/address-parser');
 var signals = require('signals');
+var gitLib = require('../js/github/github');
+
 
 function HomeRepositoryViewModel(home, path) {
   this.home = home;
@@ -49,6 +51,12 @@ function HomeViewModel(app) {
   this.showNux = ko.computed(function() {
     return self.repos().length == 0;
   });
+  this.newRepo = ko.observable({
+    username: this.app.gitConfig().user,
+    password: "",
+    project: "",
+    location: this.app.gitConfig().location.remote
+  });
 }
 exports.HomeViewModel = HomeViewModel;
 HomeViewModel.prototype.template = 'home';
@@ -66,6 +74,94 @@ HomeViewModel.prototype.update = function() {
   }));
 }
 
+
+var repoStatusShow;
+var repoStatusShow = function(status) {
+  $('#repo-status').html(status).show();
+}
+
+var repoStatusHide;
+var repoStatusHide = function() {
+  $('#repo-status').hide();
+}
+
+var hideModal;
+var hideModal = function() {
+  $('#modalCreateProject').modal('hide');
+}
+
+HomeViewModel.prototype.createRepo = function(data) {
+
+  // context
+  var self = this;
+  var app = this.app;
+  var gitConfig = this.app.gitConfig();
+
+  // visual feedback: spinner
+  var spinner = '<img src="images/ajax-loader.gif">';
+  var status = 'Creating '+self.newRepo().project+'...<BR>'+spinner;
+  repoStatusShow(status);
+
+  // establish gh connection
+  var github = new gitLib.Github({
+    username: self.newRepo().username,
+    password: self.newRepo().password,
+    api_url: 'https://'+gitConfig.location.remote+'/api/v3'
+  });
+
+  // retrieve the current user and repos
+  var gitUser = github.getUser(self.newRepo().username);
+  gitUser.repos(function(err, r) {
+
+    if (err) {
+      status = 'ERROR CODE '+err.error;
+      repoStatusShow(status);
+    }
+
+    else {
+      // retrieve placeholder repo (necessary for library syntax)
+      var repo = github.getRepo(self.newRepo().username, r[0].name);
+
+      // create a new repo
+      repo.createRepo({name: self.newRepo().project}, function(err, r) {
+        if (err) {
+          status = 'ERROR CODE '+err.error;
+          repoStatusShow(status);
+        }
+        else {
+
+          // context for remote/local repo
+          var pathLocal = gitConfig.location.local+'/'+gitConfig.user+'/'+self.newRepo().project;
+          var pathRemote = r.clone_url;
+
+          // add repository to favorites
+          var repos = app.repoList();
+          if (repos.indexOf(pathLocal) == -1) {
+            repos.push(pathLocal);
+            app.repoList(repos);
+          }
+
+          // make directory (if it doesn't exist already)
+          app.post('/git/repo/mkdir', { pathLocal: pathLocal, pathRemote: pathRemote }, function(err, res) {
+            if (err) {
+              status = 'ERROR CODE '+err.error;
+              repoStatusShow(status);
+            }
+            // on successful directory creation, clone the repo
+            else if (res.ok) {
+              app.post('/clone', { path: pathLocal, url: pathRemote, destinationDir: pathLocal }, function(err_clone, res) {
+                if (err_clone) return;
+                hideModal();
+                app.browseTo('repository?path=' + encodeURIComponent(pathLocal));
+              });
+            }
+          });
+
+        }
+      });
+    }
+  });
+}
 
 var CrashViewModel = function() {
 }

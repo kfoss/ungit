@@ -314,3 +314,13 @@ AppViewModel.prototype._onUnhandledBadBackendResponse = function(err, precreated
     this.appContainer.content(new screens.CrashViewModel());
   }
 }
+
+AppViewModel.prototype.gitConfig = function() {
+  return {
+    user: <FIXME: gitUser>,
+    location: {
+      local: <FIXME: /path/to/local/git/dir>,
+      remote: <FIXME: address-of-github.server>
+    }
+  }
+}

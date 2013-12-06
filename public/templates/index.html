@@ -18,6 +18,17 @@
 				Then press the <span class="glyphicon glyphicon-plus"></span> symbol to make it show up here.
 			</div>
 		</div>
+		<div class="list-group">
+			<a id="project-create" class="project-create list-group-item repository" data-toggle="modal" data-target="#modalCreateProject">
+				<div class="inline-block vertical-middle">
+				  <span class="glyphicon glyphicon-plus glyphicon-circled pull-left"></span>
+			  </div>
+				<div class="inline-block vertical-middle">
+				  <h4 class="list-group-item-heading">Create Project</h4>
+			  </div>
+			</a>
+		</div>
+
 		<div class="list-group" data-bind="foreach: repos">
 			<a class="list-group-item repository" data-bind="attr: { href: link }, css: { 'path-removed': pathRemoved }">
 				<div class="inline-block vertical-super">
@@ -32,6 +43,51 @@
 			</a>
 		</div>
 	</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalCreateProject" tabindex="-1" role="dialog" aria-labelledby="modalCreateProjectLabel" aria-hidden="true" data-bind="highlightRequiredInput">
+    <form class="form-horizontal" role="form" id="project-create" data-bind="submit: createRepo">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="modalCreateProjectLabel">Create Project</h4>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                <label for="inputProjectName" class="col-sm-2 control-label">Project Name</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inputProjectName" placeholder="Project Name" data-required="true" data-bind="value: newRepo().project">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputProjectLocation" class="col-sm-2 control-label">Remote Location</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inputProjectLocation" data-bind="value: newRepo().location" data-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputGitUser" class="col-sm-2 control-label">Username</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="inputGitUser" data-required="true" data-bind="value: newRepo().username">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputGitPass" class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" id="inputGitPass" data-required="true" data-bind="value: newRepo().password">
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <div id="repo-status" class="align-left" style="display:none"></div>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </form>
+  </div><!-- /.modal -->
 </script>
 
 <script type="text/html" id="crash">
