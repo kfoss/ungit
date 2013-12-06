@@ -99,7 +99,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'assets/client/images/',
-          src: ['**/*.png'],
+          src: ['**/*.png', '**/*.gif'],
           dest: 'public/images/'
         }]
       }
