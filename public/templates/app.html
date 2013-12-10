@@ -1,24 +1,3 @@
-
-<div class="navbar navbar-fixed-top" data-bind="shown: shown">
-
-	<a data-ta-clickable="home-link" class="backlink" href="/#/">
-		<span class="glyphicon glyphicon-arrow-left glyphicon-circled" data-bind="css: { 'glyph-shown': showBackButton }"></span>
-		<img src="images/logo.png">
-	</a>
-
-	<div class="form-container">
-		<form class="path-input-form" data-bind="submit: submitPath">
-			<input data-ta-input="navigation-path" type="text" class="form-control input-lg" data-bind="value: path, autocomplete: path" placeholder="Enter path to repository">
-			<button type="button" class="add-to-repolist btn btn-default" data-bind="visible: showAddToRepoListButton, click: addCurrentPathToRepoList">
-				<span class="glyphicon glyphicon-plus"></span>
-			</button>
-		</form>
-	</div>
-
-	<div class="arrowUp"></div>
-	<div class="version" data-bind="text: currentVersion"></div>
-</div>
-
 <div class="container">
 	<div class="alert alert-info" data-bind="visible: newVersionAvailable">
 		A new version of ungit (<span data-bind="text: latestVersion"></span>) is available! Run 'npm update -g ungit' to install. (You are currently running version <span data-bind="text: currentVersion"></span>.)
@@ -43,7 +22,7 @@
 		</p>
 		<p data-bind="visible: tip, text: tip"></p>
 		<p data-bind="visible: showEnableBugtracking">
-			<button class="btn btn-primary" data-bind="click: enableBugtrackingAndStatistics">Enable bugtracking + usage statistics</button> or 
+			<button class="btn btn-primary" data-bind="click: enableBugtrackingAndStatistics">Enable bugtracking + usage statistics</button> or
 			<button class="btn btn-primary" data-bind="click: enableBugtracking">Enable automatic bug reports</button> to automatically report bugs, and/or <a href="https://github.com/FredrikNoren/ungit/issues" target="_blank">file an issue on the ungit issue tracker</a>.
 		</p>
 		<h4>Command</h4>
