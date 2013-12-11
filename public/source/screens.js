@@ -131,7 +131,7 @@ HomeViewModel.prototype.createRepo = function(data) {
         else {
 
           // context for remote/local repo
-          var pathLocal = gitConfig.location.local+'/'+gitConfig.user+'/'+self.newRepo().project;
+          var pathLocal = gitConfig.location.local+'/'+self.newRepo().project;
           var pathRemote = r.clone_url;
 
           // add repository to favorites
