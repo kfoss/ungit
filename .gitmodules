@@ -1,0 +1,3 @@
+[submodule "public/js/github"]
+	path = public/js/github
+	url = https://github.com/kylef-lab41/github.git
