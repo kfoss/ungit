@@ -2,12 +2,14 @@ var rc = require('rc');
 var optimist = require('optimist');
 
 var defaultConfig = {
-  
+
   // The port ungit is exposed on.
   port: 8448,
 
   // The base URL ungit will be accessible from.
   urlBase: "http://localhost",
+
+  allowedDomains: 'localhost',
 
   // Enables gerrit integration.
   gerrit: false,
@@ -32,7 +34,7 @@ var defaultConfig = {
 
   // True to enable authentication. Users are defined in the users configuration property.
   authentication: false,
-  
+
   // Map of username/passwords which are granted access.
   users: undefined,
 
