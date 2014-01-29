@@ -142,7 +142,7 @@ HomeViewModel.prototype.createRepo = function(data) {
           }
 
           // make directory (if it doesn't exist already)
-          app.post('/git/repo/mkdir', { pathLocal: pathLocal, pathRemote: pathRemote }, function(err, res) {
+          app.post('/git/repo/mkdir', { path: pathLocal }, function(err, res) {
             if (err) {
               status = 'ERROR CODE '+err.error;
               repoStatusShow(status);
