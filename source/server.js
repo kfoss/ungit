@@ -162,11 +162,9 @@ app.post('/api/git/repo/mkdir', function(req, res){
 
   // retrieve input
   var json = req.body;
-  var pathRemote = json.pathRemote;
-  var pathLocal = json.pathLocal;
 
   // mkdir and return response
-  fs.mkdirp(pathLocal,
+  fs.mkdirp(json.path,
     function(err,ret) {
       res.json({ ok: true });
     }
@@ -215,7 +213,7 @@ app.get('/api/fs/exists', ensureAuthenticated, function(req, res) {
 
 app.get('/api/fs/listDirectories', ensureAuthenticated, function(req, res) {
   var dir = req.query.term.trim();
-  
+
   readUserConfig(function(err, userconfig) {
     if (err) res.json(400, err);
     else if (dir) {
