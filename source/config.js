@@ -9,7 +9,7 @@ var defaultConfig = {
   // The base URL ungit will be accessible from.
   urlBase: "http://localhost",
 
-  allowedDomains: 'http://localhost',
+  allowedDomains: 'http://localhost:8000',
 
   // Enables gerrit integration.
   gerrit: false,
